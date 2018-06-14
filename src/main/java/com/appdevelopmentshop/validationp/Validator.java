@@ -29,8 +29,9 @@ public class Validator implements Serializable, ValidatorStrategy {
 
     private boolean isAutoValidatable;
 
-    public Validator(boolean isAutoValidatableEnable){
+    public Validator(boolean isAutoValidatableEnable, OnValidStateListener validStateListener){
         this.isAutoValidatable = isAutoValidatableEnable;
+        this.validStateListener = validStateListener;
     }
 
     private void initCond(BaseCondition cond) {
@@ -46,6 +47,7 @@ public class Validator implements Serializable, ValidatorStrategy {
     }
 
     public void setAutoValidatable(boolean enable) {
+        isAutoValidatable = enable;
         for (BaseCondition cond : conditions) {
             cond.setAutoValidatable(enable);
         }
@@ -81,6 +83,10 @@ public class Validator implements Serializable, ValidatorStrategy {
 
     public void setOnValidChangeListener(OnValidStateListener onValidChangeListener){
         this.validStateListener = onValidChangeListener;
+    }
+
+    public boolean isValid(){
+        return isValidatorValid;
     }
 
     /**
