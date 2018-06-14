@@ -19,7 +19,7 @@ import java.util.List;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public class Validator implements Serializable, ValidatorStrategy {
+public class Validator implements ValidatorStrategy {
 
     private final List<BaseCondition> conditions = new ArrayList<>();
     private transient View rootView;

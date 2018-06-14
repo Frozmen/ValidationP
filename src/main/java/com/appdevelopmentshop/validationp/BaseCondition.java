@@ -4,6 +4,7 @@ import android.support.annotation.IdRes;
 import android.util.Log;
 import android.view.View;
 
+import com.appdevelopmentshop.validationp.conditions.ValidationNotifier;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
 import java.io.Serializable;
@@ -15,7 +16,8 @@ import java.util.List;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public abstract class BaseCondition<T extends View, E extends View> implements Serializable {
+public abstract class BaseCondition<T extends View, E extends View>
+        implements ValidationNotifier{
 
     public static final String TAG = BaseCondition.class.getSimpleName();
 
@@ -41,7 +43,8 @@ public abstract class BaseCondition<T extends View, E extends View> implements S
         this.errorView = errorView;
 
         this.viewId = viewView.getId();
-        this.errorViewId = errorView.getId();
+        if(errorView != null)
+            this.errorViewId = errorView.getId();
 
         this.rules = Arrays.asList(rules);
     }
@@ -79,7 +82,7 @@ public abstract class BaseCondition<T extends View, E extends View> implements S
     public void setAutoValidatable(boolean isEnable) {
         this.isAutoValidatable = isEnable;
         if (isAutoValidatable) {
-            onSetNotifier();
+            onSetNotifier(this);
         } else {
             onRemoveNotifier();
         }
@@ -108,7 +111,7 @@ public abstract class BaseCondition<T extends View, E extends View> implements S
         Log.i(TAG, "resetError: there is no overwrite resetError() for " + getClass().getSimpleName());
     }
 
-    protected void onSetNotifier() {
+    protected void onSetNotifier(ValidationNotifier notifier) {
         //stubb
         Log.i(TAG, "onSetNotifier: there is no overwrite onSetNotifier() for " + getClass().getSimpleName());
 
@@ -120,7 +123,8 @@ public abstract class BaseCondition<T extends View, E extends View> implements S
         Log.i(TAG, "onRemoveNotifier: there is no overwrite onRemoveNotifier() for " + getClass().getSimpleName());
     }
 
-    protected void notifyNeedValidate() {
+    @Override
+    public void notifyNeedValidate() {
         validate();
     }
 

@@ -37,8 +37,8 @@ public class EditTextCondition extends BaseCondition<EditText, EditText> {
     }
 
     @Override
-    protected void onSetNotifier() {
-        super.onSetNotifier();
+    protected void onSetNotifier(final ValidationNotifier notifier) {
+        super.onSetNotifier(notifier);
         validationNotifTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -47,7 +47,7 @@ public class EditTextCondition extends BaseCondition<EditText, EditText> {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                notifyNeedValidate();
+                notifier.notifyNeedValidate();
             }
 
             @Override

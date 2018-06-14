@@ -39,7 +39,7 @@ public class TextInputLayoutCondition extends BaseCondition<EditText, TextInputL
     }
 
     @Override
-    protected void onSetNotifier() {
+    protected void onSetNotifier(final ValidationNotifier notifier) {
         validationNotifTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -48,7 +48,7 @@ public class TextInputLayoutCondition extends BaseCondition<EditText, TextInputL
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                notifyNeedValidate();
+                notifier.notifyNeedValidate();
             }
 
             @Override

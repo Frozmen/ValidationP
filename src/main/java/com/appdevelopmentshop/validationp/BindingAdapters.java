@@ -3,8 +3,11 @@ package com.appdevelopmentshop.validationp;
 import android.databinding.BindingAdapter;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.appdevelopmentshop.validationp.conditions.CheckBoxConditon;
+import com.appdevelopmentshop.validationp.rules.CheckBoxRule;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
 
@@ -24,8 +27,12 @@ public class BindingAdapters {
             validator.addEditTextCondition((EditText) view, rules);
         } else  if(view instanceof TextInputLayout){
             validator.addTextInputLayoutCondition((TextInputLayout) view, rules);
+        } else if(view instanceof CheckBox){
+            validator.addCondition(new CheckBoxConditon(((CheckBox) view), (CheckBoxRule) rules[0]));
         } else {
-            validator.addCondition(conditions);
+            if(conditions != null){
+                validator.addCondition(conditions);
+            }
         }
     }
 }
