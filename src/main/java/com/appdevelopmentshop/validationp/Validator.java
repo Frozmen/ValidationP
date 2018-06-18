@@ -1,11 +1,11 @@
 package com.appdevelopmentshop.validationp;
 
-import android.app.Activity;
-import android.support.annotation.IdRes;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
 import com.appdevelopmentshop.validationp.conditions.EditTextCondition;
 import com.appdevelopmentshop.validationp.conditions.TextInputLayoutCondition;
 import com.appdevelopmentshop.validationp.rules.Rule;
@@ -19,10 +19,9 @@ import java.util.List;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public class Validator implements ValidatorStrategy {
+public class Validator implements ConditionValidChangeListener {
 
     private final List<BaseCondition> conditions = new ArrayList<>();
-    private transient View rootView;
 
     private boolean              isValidatorValid;
     private OnValidStateListener validStateListener;
@@ -58,27 +57,14 @@ public class Validator implements ValidatorStrategy {
         initCond(new TextInputLayoutCondition(textInputLayout, rules));
     }
 
-    public void addTextInputLayoutCondition(@IdRes int editTextId, @IdRes int textInputLayoutId,
-                                            Rule... rules) {
-        initCond(new TextInputLayoutCondition(editTextId, textInputLayoutId, rules));
-    }
-
     public void addEditTextCondition(EditText editText,
                                      Rule... rules) {
         initCond(new EditTextCondition(editText, rules));
     }
 
-    public void addEditTextCondition(@IdRes int editTextId,
+    public void addCheckBoxCondition(CheckBox checkBox,
                                      Rule... rules) {
-        initCond(new EditTextCondition(editTextId, rules));
-    }
-
-    public void bindView(View rootView) {
-        this.rootView = rootView;
-    }
-
-    public void bindView(Activity activity) {
-        this.rootView = activity.getWindow().getDecorView();
+        initCond(new CheckBoxCondition(checkBox, rules));
     }
 
     public void setOnValidChangeListener(OnValidStateListener onValidChangeListener){
@@ -115,11 +101,6 @@ public class Validator implements ValidatorStrategy {
             }
         }
         return true;
-    }
-
-    @Override
-    public View getRoot() {
-        return rootView;
     }
 
     @Override

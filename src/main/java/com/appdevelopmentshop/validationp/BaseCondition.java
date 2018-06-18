@@ -1,13 +1,11 @@
 package com.appdevelopmentshop.validationp;
 
-import android.support.annotation.IdRes;
 import android.util.Log;
 import android.view.View;
 
 import com.appdevelopmentshop.validationp.conditions.ValidationNotifier;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,35 +19,23 @@ public abstract class BaseCondition<T extends View, E extends View>
 
     public static final String TAG = BaseCondition.class.getSimpleName();
 
-    private           int viewId;
     private transient T   targetView;
-    private           int errorViewId;
+
     private transient E   errorView;
 
-    private       ValidatorStrategy       validatorStrategy;
-    private final List<? extends Rule<T>> rules;
+    private       ConditionValidChangeListener validatorStrategy;
+    private final List<? extends Rule<T>>      rules;
 
     private boolean isAutoValidatable;
     private boolean isConditionValid;
 
-    public BaseCondition(@IdRes int viewId, @IdRes int errorId, Rule<T>... rules) {
-        this.viewId = viewId;
-        this.errorViewId = errorId;
-        this.rules = Arrays.asList(rules);
-    }
-
     public BaseCondition(T viewView, E errorView, Rule<T>... rules) {
         this.targetView = viewView;
         this.errorView = errorView;
-
-        this.viewId = viewView.getId();
-        if(errorView != null)
-            this.errorViewId = errorView.getId();
-
         this.rules = Arrays.asList(rules);
     }
 
-    void setValidatorStrategy(ValidatorStrategy rootViewProvider) {
+    void setValidatorStrategy(ConditionValidChangeListener rootViewProvider) {
         this.validatorStrategy = rootViewProvider;
     }
 
@@ -94,12 +80,7 @@ public abstract class BaseCondition<T extends View, E extends View>
 
     public T getTargetView(){
         if (targetView == null) {
-            if (validatorStrategy.getRoot() == null)
-                throw new IllegalStateException("You should call bindView() on Validator before use it");
-            targetView = validatorStrategy.getRoot().findViewById(viewId);
-            if(targetView == null){
-                throw new IllegalStateException("Cannot find view with id " + viewId);
-            }
+                throw new IllegalStateException("Validatable view is null");
         }
         return targetView;
     }

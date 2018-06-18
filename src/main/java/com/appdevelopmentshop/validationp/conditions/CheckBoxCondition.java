@@ -3,10 +3,8 @@ package com.appdevelopmentshop.validationp.conditions;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 
 import com.appdevelopmentshop.validationp.BaseCondition;
-import com.appdevelopmentshop.validationp.rules.CheckBoxRule;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
 /**
@@ -14,9 +12,9 @@ import com.appdevelopmentshop.validationp.rules.Rule;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public class CheckBoxConditon extends BaseCondition<CheckBox, View> {
+public class CheckBoxCondition extends BaseCondition<CheckBox, View> {
 
-    public CheckBoxConditon(CheckBox viewView, Rule<CheckBox> ... checkBoxRule) {
+    public CheckBoxCondition(CheckBox viewView, Rule... checkBoxRule) {
         super(viewView, null, checkBoxRule);
     }
 

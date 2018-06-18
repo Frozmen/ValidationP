@@ -7,7 +7,6 @@ import android.view.View;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public interface ValidatorStrategy {
-    View getRoot();
+public interface ConditionValidChangeListener {
     void onConditionValidStateChange(BaseCondition<?, ?> condition);
 }

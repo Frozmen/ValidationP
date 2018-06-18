@@ -2,11 +2,12 @@ package com.appdevelopmentshop.validationp;
 
 import android.databinding.BindingAdapter;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.appdevelopmentshop.validationp.conditions.CheckBoxConditon;
+import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
 import com.appdevelopmentshop.validationp.rules.CheckBoxRule;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
@@ -18,20 +19,27 @@ import com.appdevelopmentshop.validationp.rules.Rule;
  */
 public class BindingAdapters {
 
-    @BindingAdapter(value = {"validator", "rules", "conditions"}, requireAll = false)
-    public static  void bindValidator(final View view,
-                                      Validator validator, Rule[] rules, BaseCondition conditions) {
-        if(validator==null) return;
+    public static final String TAG = BindingAdapters.class.getSimpleName();
 
-        if(view instanceof EditText){
+    @BindingAdapter(value = {"validator", "conditions", "rules"}, requireAll = false)
+    public static void bindValidator(final View view,
+                                     Validator validator, BaseCondition conditions, Rule... rules) {
+        if (validator == null){
+            Log.i(TAG, "bindValidator: validator is null");
+            return;
+        }
+
+        if (view instanceof EditText) {
             validator.addEditTextCondition((EditText) view, rules);
-        } else  if(view instanceof TextInputLayout){
+        } else if (view instanceof TextInputLayout) {
             validator.addTextInputLayoutCondition((TextInputLayout) view, rules);
-        } else if(view instanceof CheckBox){
-            validator.addCondition(new CheckBoxConditon(((CheckBox) view), (CheckBoxRule) rules[0]));
+        } else if (view instanceof CheckBox) {
+            validator.addCheckBoxCondition((CheckBox) view, rules);
         } else {
-            if(conditions != null){
+            if (conditions != null) {
                 validator.addCondition(conditions);
+            } else {
+                throw new IllegalStateException("You should provide a custom Condition for " + view.getClass());
             }
         }
     }

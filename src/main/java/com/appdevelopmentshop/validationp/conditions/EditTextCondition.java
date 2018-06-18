@@ -21,10 +21,6 @@ public class EditTextCondition extends BaseCondition<EditText, EditText> {
         super(viewView, viewView, rules);
     }
 
-    public EditTextCondition(@IdRes int editTextId,
-                             Rule... rules){
-        super(editTextId, editTextId, rules);
-    }
 
     @Override
     protected void onError(EditText errorView, String msg) {

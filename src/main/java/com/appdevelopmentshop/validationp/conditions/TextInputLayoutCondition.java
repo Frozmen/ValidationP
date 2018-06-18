@@ -23,11 +23,6 @@ public class TextInputLayoutCondition extends BaseCondition<EditText, TextInputL
         super(viewView.getEditText(), viewView, rules);
     }
 
-    public TextInputLayoutCondition(@IdRes int editTextId, @IdRes int textInputLayoutId,
-                                    Rule... rules){
-        super(editTextId, textInputLayoutId, rules);
-    }
-
     @Override
     protected void onError(TextInputLayout errorView, String msg) {
         errorView.setError(msg);
