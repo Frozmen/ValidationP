@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
+import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.rules.CheckBoxRule;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
@@ -21,26 +22,30 @@ public class BindingAdapters {
 
     public static final String TAG = BindingAdapters.class.getSimpleName();
 
-    @BindingAdapter(value = {"validator", "conditions", "rules"}, requireAll = false)
-    public static void bindValidator(final View view,
-                                     Validator validator, BaseCondition conditions, Rule... rules) {
-        if (validator == null){
-            Log.i(TAG, "bindValidator: validator is null");
+    @BindingAdapter(value = {"validator", "rules"}, requireAll = false)
+    public static void _bindValidatorRules(final View view,
+                                     Validator validator,  Rule... rules) {
+        if (validator == null) {
+            Log.i(TAG, "_bindValidatorRules: validator is null");
             return;
         }
 
-        if (view instanceof EditText) {
-            validator.addEditTextCondition((EditText) view, rules);
-        } else if (view instanceof TextInputLayout) {
-            validator.addTextInputLayoutCondition((TextInputLayout) view, rules);
-        } else if (view instanceof CheckBox) {
-            validator.addCheckBoxCondition((CheckBox) view, rules);
-        } else {
-            if (conditions != null) {
-                validator.addCondition(conditions);
-            } else {
-                throw new IllegalStateException("You should provide a custom Condition for " + view.getClass());
-            }
+        Condition cond = ConditionFabric.getCondition(view, rules);
+        if (cond == null) {
+            Log.i(TAG, "_bindValidatorRules: there is no default condition for view " + view.getClass());
+            //todo remove in prod
+            throw new IllegalStateException("_bindValidatorRules: there is no condition for view " + view.getClass());
         }
+        validator.addCondition(cond);
+    }
+
+    @BindingAdapter(value = {"validator", "conditions"}, requireAll = false)
+    public static void _bindValidatorCondition(final View view,
+                                     Validator validator, Condition conditions) {
+        if (validator == null || conditions == null) {
+            Log.i(TAG, "_bindValidatorCondition: validator or condition is null");
+            return;
+        }
+        validator.addCondition(conditions);
     }
 }

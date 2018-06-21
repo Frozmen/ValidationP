@@ -1,6 +1,6 @@
 package com.appdevelopmentshop.validationp;
 
-import android.view.View;
+import com.appdevelopmentshop.validationp.conditions.Condition;
 
 /**
  * Created by Artem Sisetskyi on 6/7/18.
@@ -8,5 +8,5 @@ import android.view.View;
  * sisetskyi.a@gmail.com
  */
 public interface ConditionValidChangeListener {
-    void onConditionValidStateChange(BaseCondition<?, ?> condition);
+    void onConditionValidStateChange(Condition condition);
 }

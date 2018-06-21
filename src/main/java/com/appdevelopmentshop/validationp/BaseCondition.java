@@ -3,6 +3,7 @@ package com.appdevelopmentshop.validationp;
 import android.util.Log;
 import android.view.View;
 
+import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.conditions.ValidationNotifier;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * sisetskyi.a@gmail.com
  */
 public abstract class BaseCondition<T extends View, E extends View>
-        implements ValidationNotifier{
+        implements Condition, ValidationNotifier {
 
     public static final String TAG = BaseCondition.class.getSimpleName();
 
@@ -35,11 +36,13 @@ public abstract class BaseCondition<T extends View, E extends View>
         this.rules = Arrays.asList(rules);
     }
 
-    void setValidatorStrategy(ConditionValidChangeListener rootViewProvider) {
+    @Override
+    public void setValidChangeListener(ConditionValidChangeListener rootViewProvider) {
         this.validatorStrategy = rootViewProvider;
     }
 
-    boolean validate() {
+    @Override
+    public boolean validate() {
        boolean isValid = true;
         for (Rule rule : rules) {
             if (!rule.isViewValid(getTargetView())) {
@@ -65,6 +68,7 @@ public abstract class BaseCondition<T extends View, E extends View>
         return isValid;
     }
 
+    @Override
     public void setAutoValidatable(boolean isEnable) {
         this.isAutoValidatable = isEnable;
         if (isAutoValidatable) {
@@ -74,11 +78,12 @@ public abstract class BaseCondition<T extends View, E extends View>
         }
     }
 
+    @Override
     public boolean isValid() {
         return isConditionValid;
     }
 
-    public T getTargetView(){
+    protected T getTargetView(){
         if (targetView == null) {
                 throw new IllegalStateException("Validatable view is null");
         }

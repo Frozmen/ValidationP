@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
+import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.conditions.EditTextCondition;
 import com.appdevelopmentshop.validationp.conditions.TextInputLayoutCondition;
 import com.appdevelopmentshop.validationp.rules.Rule;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class Validator implements ConditionValidChangeListener {
 
-    private final List<BaseCondition> conditions = new ArrayList<>();
+    private final List<Condition> conditions = new ArrayList<>();
 
     private boolean              isValidatorValid;
     private OnValidStateListener validStateListener;
@@ -33,21 +34,21 @@ public class Validator implements ConditionValidChangeListener {
         this.validStateListener = validStateListener;
     }
 
-    private void initCond(BaseCondition cond) {
-        cond.setValidatorStrategy(this);
+    private void initCond(Condition cond) {
+        cond.setValidChangeListener(this);
         if(isAutoValidatable){
             cond.setAutoValidatable(true);
         }
         conditions.add(cond);
     }
 
-    public <T extends BaseCondition> void addCondition(T cond) {
+    public <T extends Condition> void addCondition(T cond) {
         initCond(cond);
     }
 
     public void setAutoValidatable(boolean enable) {
         isAutoValidatable = enable;
-        for (BaseCondition cond : conditions) {
+        for (Condition cond : conditions) {
             cond.setAutoValidatable(enable);
         }
     }
@@ -82,7 +83,7 @@ public class Validator implements ConditionValidChangeListener {
      */
     public boolean validate() {
         boolean isValid = true;
-        for (BaseCondition cond : conditions) {
+        for (Condition cond : conditions) {
             if (!cond.validate() && isValid) {
                 isValid = false;
             }
@@ -95,7 +96,7 @@ public class Validator implements ConditionValidChangeListener {
     }
 
     private boolean isAllConditionValidNow(){
-        for (BaseCondition cond : conditions) {
+        for (Condition cond : conditions) {
             if (!cond.isValid()) {
                 return false;
             }
@@ -104,7 +105,7 @@ public class Validator implements ConditionValidChangeListener {
     }
 
     @Override
-    public void onConditionValidStateChange(BaseCondition<?, ?> condition) {
+    public void onConditionValidStateChange(Condition condition) {
         if(isValidatorValid && !condition.isValid()){
             isValidatorValid = false;
             if(validStateListener!=null){
