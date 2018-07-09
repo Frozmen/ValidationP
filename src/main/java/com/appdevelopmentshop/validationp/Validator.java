@@ -1,16 +1,13 @@
 package com.appdevelopmentshop.validationp;
 
 import android.support.design.widget.TextInputLayout;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-
 import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
 import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.conditions.EditTextCondition;
 import com.appdevelopmentshop.validationp.conditions.TextInputLayoutCondition;
 import com.appdevelopmentshop.validationp.rules.Rule;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +29,10 @@ public class Validator implements ConditionValidChangeListener {
     public Validator(boolean isAutoValidatableEnable, OnValidStateListener validStateListener){
         this.isAutoValidatable = isAutoValidatableEnable;
         this.validStateListener = validStateListener;
+    }
+
+    public Validator(boolean isAutoValidatableEnable){
+        this.isAutoValidatable = isAutoValidatableEnable;
     }
 
     private void initCond(Condition cond) {

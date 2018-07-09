@@ -1,15 +1,10 @@
 package com.appdevelopmentshop.validationp;
 
 import android.databinding.BindingAdapter;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-
-import com.appdevelopmentshop.validationp.conditions.CheckBoxCondition;
+import android.view.ViewGroup;
 import com.appdevelopmentshop.validationp.conditions.Condition;
-import com.appdevelopmentshop.validationp.rules.CheckBoxRule;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
 
@@ -48,4 +43,15 @@ public class BindingAdapters {
         }
         validator.addCondition(conditions);
     }
+
+    @BindingAdapter("initValidator")
+    public static void _initValidator(final ViewGroup view, ValidatorReadyListener validatoristener) {
+        validatoristener.onValidatorReady(new Validator(true));
+    }
+
+    public interface ValidatorReadyListener{
+        void onValidatorReady(Validator validator);
+    }
+
+
 }
