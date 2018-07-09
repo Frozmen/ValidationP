@@ -1,21 +1,22 @@
 package com.appdevelopmentshop.validationp.rules;
 
 /**
- * Created by Artem Sisetskyi on 6/5/18.
+ * Created by Artem Sisetskyi on 7/10/18.
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
 public class LengthRule extends BaseTextRule {
 
-    private int targetLength;
+  private int targetLength;
 
-    public LengthRule(int length, String errorMsg) {
-        super(errorMsg);
-        targetLength = length;
-    }
+  public LengthRule(int length, String errorMsg) {
+    super(errorMsg);
+    targetLength = length;
+  }
 
-    @Override
-    public boolean isTextValid(String text) {
-        return text.length() == targetLength;
-    }
+  @Override
+  public boolean isTextValid(String text) {
+    return text.length() == targetLength;
+  }
 }
+

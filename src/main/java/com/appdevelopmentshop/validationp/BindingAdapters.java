@@ -52,6 +52,4 @@ public class BindingAdapters {
     public interface ValidatorReadyListener{
         void onValidatorReady(Validator validator);
     }
-
-
 }
