@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
  * sisetskyi.a@gmail.com
  */
 public class RegexRule extends BaseTextRule {
+    public static final String REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@(.+)$";
 
     private final Pattern pattern;
 
