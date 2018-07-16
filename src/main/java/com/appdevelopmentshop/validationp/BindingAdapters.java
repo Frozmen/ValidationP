@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
@@ -46,10 +47,10 @@ public class BindingAdapters {
 
     @BindingAdapter("initValidator")
     public static void _initValidator(final ViewGroup view, ValidatorReadyListener validatoristener) {
-        validatoristener.onValidatorReady(new Validator(true));
+        validatoristener.onValidatorReady(new Validator(true), view.getRootView());
     }
 
     public interface ValidatorReadyListener{
-        void onValidatorReady(Validator validator);
+        void onValidatorReady(Validator validator, View root);
     }
 }
