@@ -17,6 +17,11 @@ public class RegexRule extends BaseTextRule {
         pattern = Pattern.compile(regex);
     }
 
+    public RegexRule(Pattern pattern, String errorMsg) {
+        super(errorMsg);
+        this.pattern = pattern;
+    }
+
     @Override
     public boolean isTextValid(String text) {
         return pattern.matcher(text).matches();
