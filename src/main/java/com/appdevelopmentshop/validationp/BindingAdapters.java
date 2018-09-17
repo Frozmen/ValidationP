@@ -4,7 +4,6 @@ import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.rules.Rule;
 
@@ -17,7 +16,9 @@ public class BindingAdapters {
 
   public static final String TAG = BindingAdapters.class.getSimpleName();
 
-  @BindingAdapter(value = {"validator", "rules"}, requireAll = false)
+  @Deprecated
+  //use ValidatorReadyListener for adding rules and condition by code
+  @BindingAdapter(value = { "validator", "rules" }, requireAll = false)
   public static void _bindValidatorRules(final View view,
       Validator validator, Rule... rules) {
     if (validator == null) {
@@ -35,7 +36,8 @@ public class BindingAdapters {
     validator.addCondition(cond);
   }
 
-  @BindingAdapter(value = {"validator", "conditions"}, requireAll = false)
+  @Deprecated
+  @BindingAdapter(value = { "validator", "conditions" }, requireAll = false)
   public static void _bindValidatorCondition(final View view,
       Validator validator, Condition conditions) {
     if (validator == null || conditions == null) {
@@ -47,7 +49,8 @@ public class BindingAdapters {
 
   @BindingAdapter("initValidator")
   public static void _initValidator(final ViewGroup view, ValidatorReadyListener validatoristener) {
-    validatoristener.onValidatorReady(new Validator(true), view.getRootView());
+    validatoristener.onValidatorReady(new Validator(),
+        view);
   }
 
   public interface ValidatorReadyListener {

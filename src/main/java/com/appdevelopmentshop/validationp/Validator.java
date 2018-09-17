@@ -24,22 +24,13 @@ public class Validator implements ConditionValidChangeListener {
     private boolean              isValidatorValid;
     private OnValidStateListener validStateListener;
 
-    private boolean isAutoValidatable;
-
-    public Validator(boolean isAutoValidatableEnable, OnValidStateListener validStateListener){
-        this.isAutoValidatable = isAutoValidatableEnable;
-        this.validStateListener = validStateListener;
-    }
-
-    public Validator(boolean isAutoValidatableEnable){
-        this.isAutoValidatable = isAutoValidatableEnable;
-    }
+    private boolean isAutoValidatable = true;
+    private boolean isErrorShowing = true;
 
     private void initCond(Condition cond) {
         cond.setValidChangeListener(this);
-        if(isAutoValidatable){
-            cond.setAutoValidatable(true);
-        }
+        cond.setAutoValidatable(isAutoValidatable);
+        cond.setErrorShowing(isErrorShowing);
         conditions.add(cond);
     }
 
@@ -52,6 +43,17 @@ public class Validator implements ConditionValidChangeListener {
         for (Condition cond : conditions) {
             cond.setAutoValidatable(enable);
         }
+    }
+
+    public void setErrorShowing(boolean isNeedShowError){
+        this.isErrorShowing = isNeedShowError;
+        for (Condition cond : conditions) {
+            cond.setErrorShowing(isErrorShowing);
+        }
+    }
+
+    public boolean isErrorShowing(){
+        return isErrorShowing;
     }
 
     public void addTextInputLayoutCondition(TextInputLayout textInputLayout,
@@ -125,7 +127,34 @@ public class Validator implements ConditionValidChangeListener {
         }
     }
 
+    public static Builder newBuilder() {
+        return new Validator().new Builder();
+    }
+
     public interface OnValidStateListener extends Serializable {
         void onValidChange(boolean newState);
+    }
+
+    public class Builder {
+
+        public Builder validListener(OnValidStateListener validStateListener){
+            Validator.this.validStateListener = validStateListener;
+            return this;
+        }
+
+        public Builder isErrorShowing(boolean isNeedShowError){
+            Validator.this.isErrorShowing = isNeedShowError;
+            return this;
+        }
+
+        public Builder autoValidatableEnable(boolean isEnable){
+            Validator.this.isAutoValidatable = isEnable;
+            return this;
+        }
+
+        public Validator build() {
+            return Validator.this;
+        }
+
     }
 }

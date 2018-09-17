@@ -2,11 +2,9 @@ package com.appdevelopmentshop.validationp;
 
 import android.util.Log;
 import android.view.View;
-
 import com.appdevelopmentshop.validationp.conditions.Condition;
 import com.appdevelopmentshop.validationp.conditions.ValidationNotifier;
 import com.appdevelopmentshop.validationp.rules.Rule;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +26,7 @@ public abstract class BaseCondition<T extends View, E extends View>
     private final List<? extends Rule<T>>      rules;
 
     private boolean isAutoValidatable;
+    private boolean isNeedShowError;
     private boolean isConditionValid;
 
     public BaseCondition(T viewView, E errorView, Rule<T>... rules) {
@@ -47,11 +46,12 @@ public abstract class BaseCondition<T extends View, E extends View>
         for (Rule rule : rules) {
             if (!rule.isViewValid(getTargetView())) {
                 isValid = false;
-                onError(errorView, rule.getErrorMsg());
+                if(isNeedShowError)
+                    onError(errorView, rule.getErrorMsg());
                 break;
             }
         }
-        if (isValid) {
+        if (isValid && isNeedShowError) {
             resetError(errorView);
         }
 
@@ -75,6 +75,16 @@ public abstract class BaseCondition<T extends View, E extends View>
             onSetNotifier(this);
         } else {
             onRemoveNotifier();
+        }
+    }
+
+    @Override
+    public void setErrorShowing(boolean isNeedShow) {
+        this.isNeedShowError = isNeedShow;
+        if(isNeedShowError){
+            validate();
+        } else {
+            resetError(errorView);
         }
     }
 

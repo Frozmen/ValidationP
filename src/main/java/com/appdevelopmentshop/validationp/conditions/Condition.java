@@ -11,6 +11,8 @@ public interface Condition extends ValidationNotifier {
 
     void setAutoValidatable(boolean isEnable);
 
+    void setErrorShowing(boolean isNeedShow);
+
     boolean validate();
 
     boolean isValid();
